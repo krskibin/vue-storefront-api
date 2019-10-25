@@ -1,0 +1,53 @@
+{
+  "stores": [
+    {
+      "name": "Test store point",
+      "address1": "1128 Third Ave",
+      "address2": " NY 10065",
+      "country": "United States",
+      "position": {
+        "lng": 17.0126163986572,
+        "lat": 51.15363415597811
+      },
+      "openHours": ["11:00", "18:00"],
+      "phoneNumber": "+1 212-472-6531"
+    },
+    {
+      "name": "Test store",
+      "address1": "1890 Second Ave",
+      "address2": " NY 10040",
+      "country": "United States",
+      "position": {
+        "lng": 18.0126163986568,
+        "lat": 51.15363415597881
+
+      },
+      "openHours": ["10:00", "21:00"],
+      "phoneNumber": "+1 212-472-6532"
+    },
+    {
+      "name": "Test Store Market",
+      "address1": "4990 Fifth Ave",
+      "address2": " NY 10140",
+      "country": "United States",
+      "position": {
+        "lng": 18.0126163986567,
+        "lat": 52.15363415597831
+      },
+      "openHours": ["9:00", "21:00"],
+      "phoneNumber": "+1 212-472-6533"
+    },
+    {
+      "name": "Test Store Supermarket",
+      "address1": "4990 Fifth Ave",
+      "address2": " NY 10140",
+      "country": "United States",
+      "position": {
+        "lng": 16.01261639865124,
+        "lat": 54.153634155512
+      },
+      "openHours": ["7:00", "22:00"],
+      "phoneNumber": "+1 212-472-6533"
+    }
+  ]
+}

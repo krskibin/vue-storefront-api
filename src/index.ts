@@ -11,6 +11,10 @@ import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import resolvers from './graphql/resolvers';
 import typeDefs from './graphql/schema';
+import nestSubApi from './nestApi/subapp'
+import { Application } from 'express-serve-static-core';
+import { NestApplication, NestApplicationContext } from '@nestjs/core';
+import { NestApiModule } from './nestApi/nestApi.module';
 
 const app = express();
 
@@ -39,8 +43,19 @@ initializeDb( db => {
 
   const port = process.env.PORT || config.get('server.port')
   const host = process.env.HOST || config.get('server.host')
-  app.listen(parseInt(port), host, () => {
-    console.log(`Vue Storefront API started at http://${host}:${port}`);
+  
+  async function mountNestApp (expressApp: Application, mountPath: string, subApp: any) {
+    const nestSubApp = await subApp()
+    await nestSubApp.init()
+  
+    expressApp.use(mountPath, nestSubApp.getHttpAdapter().getInstance())
+    return expressApp
+  }
+  
+  mountNestApp(app, '/api/v2', nestSubApi).then(app => {
+    (app as any).listen(parseInt(port), host, () => {
+      console.log(`Vue Storefront API started at http://${host}:${port}`);
+    });
   });
 });
 

@@ -13,8 +13,6 @@ import resolvers from './graphql/resolvers';
 import typeDefs from './graphql/schema';
 import nestSubApi from './nestApi/subapp'
 import { Application } from 'express-serve-static-core';
-import { NestApplication, NestApplicationContext } from '@nestjs/core';
-import { NestApiModule } from './nestApi/nestApi.module';
 
 const app = express();
 

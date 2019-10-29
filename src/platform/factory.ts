@@ -3,7 +3,7 @@
 import { Request } from "express";
 import { IConfig } from "config";
 
-class PlatformFactory {
+export default class PlatformFactory {
 
   request: Request
   config: IConfig
@@ -25,5 +25,3 @@ class PlatformFactory {
     }
   }
 }
-
-module.exports = PlatformFactory;

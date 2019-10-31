@@ -1,8 +1,8 @@
 import { Module, Global } from '@nestjs/common'
 import { AppController } from './app.controller'
-import { ConfigModule } from './config/config.module'
 import { ConfigService } from './config/config.service'
 import { ProductModule } from './product/product.module'
+import { CatalogModule } from './catalog/catalog.module'
 
 const configFactory = {
   provide: 'configFactory',
@@ -18,7 +18,7 @@ const configFactory = {
 
 @Global()
 @Module({
-  imports: [ProductModule],
+  imports: [ProductModule, CatalogModule],
   controllers: [AppController],
   providers: [configFactory],
   exports: [configFactory]

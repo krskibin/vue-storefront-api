@@ -41,6 +41,7 @@ export default ({config, db}) => function (req, res, body) {
 	}
 
 	const urlSegments = req.url.split('/');
+	console.log(urlSegments)
 
 	let indexName = ''
 	let entityType = ''

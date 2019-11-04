@@ -9,8 +9,8 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get('/list')
-  async list(@Req() req: Request, @Query('skus') skus: string): Promise<any[]> {
-    if (!skus) {
+  async list(@Req() req: Request): Promise<any[]> {
+    if (!req.query.skus) {
       throw new HttpException('skus parameter is required', HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return this.productService.list(req) 

@@ -9,19 +9,13 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   @Post('/create')
-  async create(@Req() req: Request, @Query('token') token: string): Promise<any[]> {
+  async create(@Req() req: Request) {
     return await this.cartService.create(req)
   }
 
   @Delete('/delete')
   async delete(@Req() req: Request) {
     return await this.cartService.delete(req)
-  }
-
-  @Get('/pull')
-  @Header('Cache-Control', 'no-cache, no-store')
-  async findAll(@Req() req: Request) {
-    return await this.cartService.findAll(req)
   }
 
   @Get('/totals')
@@ -47,6 +41,12 @@ export class CartController {
   @Delete('/delete-coupon')
   async deleteCoupon(@Req() req: Request): Promise<any[]> {
     return await this.cartService.deleteCoupon(req)
+  }
+
+  @Get('/pull')
+  @Header('Cache-Control', 'no-cache, no-store')
+  async findAll(@Req() req: Request) {
+    return await this.cartService.findAll(req)
   }
 
   @Post('/shopping-methods')

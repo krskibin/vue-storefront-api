@@ -1,14 +1,14 @@
 import { sgnSrc } from '../../lib/util'
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import GetProxyMixin from '../utils/getProxyMixin'
+import ApiBaseService from '../shared/ApiBase'
 import config from 'config'
 import jwa from 'jwa'
 
 const hmac = jwa('HS256')
 
 @Injectable()
-export class ProductService extends GetProxyMixin {
+export class ProductService extends ApiBaseService {
 
   list(req: Request): Promise<any[]>{
     let productProxy = this._getProxy(req)

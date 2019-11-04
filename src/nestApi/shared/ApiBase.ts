@@ -2,17 +2,18 @@ import { Inject } from '@nestjs/common'
 import { Request } from 'express'
 import config from 'config'
 import PlatformFactory from '../../platform/factory'
+import { ConfigService } from '../config/config.service';
 
-export default class GetProxyMixin {
+export default class ApiBaseService {
   readonly platform: string;
   readonly type: string
 
-  constructor(@Inject('configFactory') platform: any) {
-    this.platform = platform.platform;
-    this.type = platform.type
+  constructor(@Inject('ConfigService') config: ConfigService) {
+    this.platform = config.get('platform');
+    this.type = config.type
   }
 
-  _getProxy (req: Request) {
+  protected _getProxy (req: Request) {
 		const factory = new PlatformFactory(config, req)
 		return factory.getAdapter(this.platform, this.type)
   };

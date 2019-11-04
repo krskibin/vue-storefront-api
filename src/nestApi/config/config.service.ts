@@ -11,7 +11,7 @@ export class ConfigService {
 
   constructor(@Inject(CONFIG_OPTIONS) private options: ConfigOptions) {
     this._config = config
-    this.type = options.type
+    this.type = options.type || ''
   }
 
   get(key: string): string {

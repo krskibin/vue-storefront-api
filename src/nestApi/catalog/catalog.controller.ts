@@ -4,6 +4,7 @@ import request from 'request';
 import { Controller, Req, Res, All, Body } from '@nestjs/common';
 import { Request, Response } from 'express';
 import ProcessorFactory from '../../processor/factory';
+import { ApiUseTags } from '@nestjs/swagger';
 
 const _updateQueryStringParameter = (uri: string, key: string, value:string): string => {
   const re = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
@@ -24,11 +25,12 @@ const _updateQueryStringParameter = (uri: string, key: string, value:string): st
   }
 }
 
+@ApiUseTags('catalog')
 @Controller('catalog')
 export class CatalogController {
 
   @All()
-  findAll(@Req() req: Request, @Res() res: Response) {
+  processRequest(@Req() req: Request, @Res() res: Response) {
     let groupId: number
 
     // Request method handling: exit if not GET or POST

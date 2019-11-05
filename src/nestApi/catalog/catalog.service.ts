@@ -1,10 +1,10 @@
+import { Response } from 'express';
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express-serve-static-core';
 import config from 'config'
 import ProcessorFactory from '../../processor/factory';
 import request from 'request';
 import jwt from 'jwt-simple';
-import { Response } from 'express';
 
 const _updateQueryStringParameter = (uri: string, key: string, value:string): string => {
   const re = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
@@ -52,8 +52,9 @@ export class CatalogService {
       }
     }
 
+    const requestUrl = req.url.replace('/catalog', '')
     // pass the request to elasticsearch
-    let url = esConfig.host + ':' + esConfig.port + (req.query.request ? _updateQueryStringParameter(req.url, 'request', null) : req.url)
+    let url = esConfig.host + ':' + esConfig.port + (req.query.request ? _updateQueryStringParameter(requestUrl, 'request', null) : requestUrl)
 
     if (!url.startsWith('http')) {
       url = 'http://' + url
@@ -81,6 +82,7 @@ export class CatalogService {
         pass: esConfig.password
       };
     }
+    console.log(url)
 
     request({ // do the elasticsearch request
       uri: url,

@@ -9,19 +9,19 @@ import { CatalogService } from './catalog.service';
 export class CatalogController {
   constructor(private readonly catalogService: CatalogService) {}
 
-  @Post('*')
+  @Post('/*')
   processPostRequest(@Req() req: Request, @Res() res: Response) {
     let requestBody = req.body
     this.catalogService.processRequest(req, res, requestBody)
   }
 
-  @Options('*')
+  @Options('/*')
   processOptionRequest(@Req() req: Request, @Res() res: Response) {
     let requestBody = req.body
     this.catalogService.processRequest(req, res, requestBody)
   }
 
-  @Get('*')
+  @Get('/*')
   processGetRequest(@Req() req: Request, @Res() res: Response) {
     let requestBody = {}
     if(req.query.request) {

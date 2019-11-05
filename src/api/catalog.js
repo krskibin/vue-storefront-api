@@ -91,7 +91,9 @@ export default ({config, db}) => function (req, res, body) {
 			user: config.elasticsearch.user,
 			pass: config.elasticsearch.password
 		};
-  }
+	}
+
+	console.log(url)
 
 	request({ // do the elasticsearch request
 		uri: url,

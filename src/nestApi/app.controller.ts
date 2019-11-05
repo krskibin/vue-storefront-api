@@ -5,7 +5,7 @@ import { ApiUseTags } from '@nestjs/swagger';
 @Controller('')
 export class AppController {
   @Get()
-  root(): string {
-    return 'Welcome to new Vue Storefront API based on NestJS ';
+  root(): any[] {
+    return [{ message: 'Welcome to new Vue Storefront API based on NestJS' }];
   }
 }

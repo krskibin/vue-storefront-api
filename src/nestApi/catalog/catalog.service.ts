@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { Request } from 'express-serve-static-core';
 import config from 'config'
 import ProcessorFactory from '../../processor/factory';
@@ -36,7 +36,7 @@ export class CatalogService {
     let indexName = ''
     let entityType = ''
     if (urlSegments.length < 2)
-      throw new Error('No index name given in the URL. Please do use following URL format: <base>/catalog/<index_name>/<entity_type>_search')
+      throw new BadRequestException('No index name given in the URL. Please do use following URL format: <base>/catalog/<index_name>/<entity_type>_search')
     else {
       indexName = urlSegments[1];
 
@@ -44,11 +44,11 @@ export class CatalogService {
         entityType = urlSegments[2]
 
       if (esConfig.indices.indexOf(indexName) < 0) {
-        throw new Error('Invalid / inaccessible index name given in the URL. Please do use following URL format: <base>/api/catalog/<index_name>/_search')
+        throw new BadRequestException('Invalid / inaccessible index name given in the URL. Please do use following URL format: <base>/api/catalog/<index_name>/_search')
       }
 
       if (urlSegments[urlSegments.length - 1].indexOf('_search') !== 0) {
-        throw new Error('Please do use following URL format: /api/catalog/<index_name>/_search')
+        throw new BadRequestException('Please do use following URL format: /api/catalog/<index_name>/_search')
       }
     }
 
@@ -82,7 +82,6 @@ export class CatalogService {
         pass: esConfig.password
       };
     }
-    console.log(url)
 
     request({ // do the elasticsearch request
       uri: url,

@@ -25,7 +25,7 @@ export default ({config, db}) => function (req, res, body) {
 	let groupId = null
 
 	// Request method handling: exit if not GET or POST
-	// Other metods - like PUT, DELETE etc. should be available only for authorized users or not available at all)
+	// Other methods - like PUT, DELETE etc. should be available only for authorized users or not available at all)
 	if (!(req.method == 'GET' || req.method == 'POST' || req.method == 'OPTIONS')) {
 		throw new Error('ERROR: ' + req.method + ' request method is not supported.')
 	}
@@ -92,8 +92,6 @@ export default ({config, db}) => function (req, res, body) {
 			pass: config.elasticsearch.password
 		};
 	}
-
-	console.log(url)
 
 	request({ // do the elasticsearch request
 		uri: url,

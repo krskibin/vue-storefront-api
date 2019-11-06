@@ -14,8 +14,8 @@ export class UserController {
   }
 
   @Post('/login')
-  async login(@Req() req: Request) {
-    return await this.userService.login(req)
+  async login(@Req() req: Request, @Res() res: Response) {
+    return this.userService.login(req, res)
   }
 
   @Post('/refresh')

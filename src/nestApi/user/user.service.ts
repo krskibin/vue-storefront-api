@@ -10,16 +10,16 @@ import Ajv from 'ajv'
 
 @Injectable()
 export class UserService extends ApiBaseService {
-  static addUserGroupToken(config: IConfig, result: any) {
-    let data: object
+  static addUserGroupToken(config, result) {
     if (config.get('usePriceTiers')) {
-      data = {
+      const data = {
         group_id: result.group_id,
         id: result.id,
-        user: result.email
+        user: result.email,
       }
+
+      result.groupToken = jwt.encode(data, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
     }
-    result.groupToken = jwt.encode(data, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
   }
 
   create(req: Request) {
@@ -40,12 +40,27 @@ export class UserService extends ApiBaseService {
     return Promise.resolve(userProxy.register(req.body))
   }
 
-  async login(req: Request) {
+  async login(req: Request, res: Response) {
     const userProxy = this._getProxy(req)
     const loginResult = await userProxy.login(req.body)
-    const meResult = await userProxy.me(loginResult)
-    // TODO: Rest of the function body
-    return Promise.resolve('sth')
+    if (config.get('usePriceTiers')) {
+      return res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        result: loginResult,
+        meta: {
+          refreshToken: encryptToken(jwt.encode(req.body, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret')), config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
+        }
+      })
+    } else {
+      return res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        result: loginResult,
+        meta: {
+				  refreshToken: encryptToken(jwt.encode(req.body, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret')), config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
+        }
+      })
+
+    }
   }
 
   async refreshToken(req: Request, res: Response) {
@@ -91,7 +106,7 @@ export class UserService extends ApiBaseService {
     const userInfo = await userProxy.me(req.query.token)
     UserService.addUserGroupToken(config, userInfo)
 
-    return Promise.resolve(userInfo)
+    return Promise.resolve({code: HttpStatus.OK, result: userInfo})
   }
 
   async userUpdate(req: Request) {

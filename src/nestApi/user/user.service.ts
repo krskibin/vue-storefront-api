@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 import { existsSync } from 'fs'
 import { merge } from 'lodash'
 import ApiBaseService from '../shared/ApiBase'
-import config, { IConfig } from  'config'
+import config from  'config'
 import jwt from 'jwt-simple'
 import Ajv from 'ajv'
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Req, HttpException, HttpStatus, Query } from '@nestjs/common';
+import { Controller, Get, Req, HttpException, HttpStatus, Query, BadRequestException } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Request } from 'express';
 import { ApiUseTags } from '@nestjs/swagger';
@@ -11,15 +11,15 @@ export class ProductController {
   @Get('/list')
   async list(@Req() req: Request): Promise<any[]> {
     if (!req.query.skus) {
-      throw new HttpException('skus parameter is required', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new BadRequestException('skus parameter is required')
     }
     return this.productService.list(req) 
   }
 
   @Get('/render-list')
-  async renderList(@Req() req: Request, @Query('skus') skus: string): Promise<any[]> {
-    if (!skus) {
-      throw new HttpException('skus parameter is required', HttpStatus.INTERNAL_SERVER_ERROR);
+  async renderList(@Req() req: Request): Promise<any[]> {
+    if (!req.query.skus) {
+      throw new BadRequestException('skus parameter is required')
     }
     return this.productService.renderList(req)
   }

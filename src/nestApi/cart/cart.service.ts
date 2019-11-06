@@ -63,6 +63,4 @@ export class CartService extends ApiBaseService{
     const cartProxy = this._getProxy(req)
     return Promise.resolve(cartProxy.setShippingInformation(req.query.token, req.query.cartId ? req.query.cartId : null, req.body))
   }
-
-  
 }

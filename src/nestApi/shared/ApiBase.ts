@@ -5,7 +5,7 @@ import PlatformFactory from '../../platform/factory'
 import { ConfigService } from '../config/config.service';
 
 export default class ApiBaseService {
-  readonly platform: string;
+  readonly platform: string
   readonly type: string
 
   constructor(@Inject('ConfigService') config: ConfigService) {
@@ -16,5 +16,5 @@ export default class ApiBaseService {
   protected _getProxy (req: Request) {
 		const factory = new PlatformFactory(config, req)
 		return factory.getAdapter(this.platform, this.type)
-  };
+  }
 }

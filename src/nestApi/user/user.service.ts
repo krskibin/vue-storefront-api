@@ -106,7 +106,7 @@ export class UserService extends ApiBaseService {
     const userInfo = await userProxy.me(req.query.token)
     UserService.addUserGroupToken(config, userInfo)
 
-    return Promise.resolve({code: HttpStatus.OK, result: userInfo})
+    return Promise.resolve(userInfo)
   }
 
   async userUpdate(req: Request) {

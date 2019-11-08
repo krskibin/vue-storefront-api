@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -6,8 +7,11 @@ import platformMiddleware from './shared/platform.middleware';
 
 export default async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-  app.useGlobalInterceptors(new TransformInterceptor())
+
   app.use(platformMiddleware)
+  app.useGlobalInterceptors(new TransformInterceptor())
+  app.useGlobalPipes(new ValidationPipe())
+
 
   const options = new DocumentBuilder()
     .setTitle('Vue Storefront API')

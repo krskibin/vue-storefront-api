@@ -1,6 +1,7 @@
 import { Controller, Post, Delete, Req, Get, Header, Body, Query, Param } from '@nestjs/common';
 import { Request } from 'express';
 import { CartService } from './cart.service';
+import { IsNotEmpty } from 'class-validator';
 import { ApiUseTags, ApiModelProperty } from '@nestjs/swagger';
 
 export class CartItem {
@@ -16,6 +17,7 @@ export class CartItem {
 }
 
 export class CartQuery {
+  @IsNotEmpty()
   @ApiModelProperty()
   readonly cartId: string
   @ApiModelProperty({required: false})

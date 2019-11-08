@@ -11,9 +11,6 @@ export class CartService extends ApiBaseService{
 
   update(cart, body) {
     const cartProxy = this._getProxy()
-    if (!cart.cartId) {
-      throw new BadRequestException('No cartId provided in params')
-    }
     return Promise.resolve(cartProxy.update(cart.token, cart.cardId, body.cartItem))
   }
 

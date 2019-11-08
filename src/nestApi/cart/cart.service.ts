@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { Request } from 'express-serve-static-core';
 import ApiBaseService from '../shared/ApiBase';
 
@@ -9,9 +9,12 @@ export class CartService extends ApiBaseService{
     return cartProxy.create(req.query.token)
   }
 
-  update(req: Request) {
+  update(cart, body) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.update(req.query.token, req.query.cardId ? req.query.cardId: null, req.body.cartItem))
+    if (!cart.cartId) {
+      throw new BadRequestException('No cartId provided in params')
+    }
+    return Promise.resolve(cartProxy.update(cart.token, cart.cardId, body.cartItem))
   }
 
   delete(req: Request) {
@@ -19,7 +22,7 @@ export class CartService extends ApiBaseService{
 		return Promise.resolve(cartProxy.delete(req.query.token, req.query.cartId ? req.query.cartId : null, req.body.cartItem))
   }
 
-  findAll(query: {token?: string, cartId?: string}, body: any) {
+  findAll(query: {token?: string, cartId: string}, body: any) {
     const cartProxy = this._getProxy()
 		return Promise.resolve(cartProxy.pull(query.token, query.cartId ? query.cartId : null, body))
   }

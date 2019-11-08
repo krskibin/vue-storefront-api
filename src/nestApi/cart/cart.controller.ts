@@ -1,13 +1,30 @@
-import { Controller, Post, Delete, Req, Get, Header, Body, Query } from '@nestjs/common';
+import { Controller, Post, Delete, Req, Get, Header, Body, Query, Param } from '@nestjs/common';
 import { Request } from 'express';
 import { CartService } from './cart.service';
 import { ApiUseTags, ApiModelProperty } from '@nestjs/swagger';
 
-export class PullCartDto {
+export class CartItem {
+
+  @ApiModelProperty()
+  readonly qty: number
+
+  @ApiModelProperty()
+  readonly sku: string
+
+  @ApiModelProperty()
+  readonly quoteId: string
+}
+
+export class CartQuery {
   @ApiModelProperty()
   readonly cartId: string
   @ApiModelProperty({required: false})
   readonly token?: string 
+}
+
+export class CartBody {
+  @ApiModelProperty({required: false})
+  readonly cartItem?: CartItem
 }
 
 @ApiUseTags('cart')
@@ -31,8 +48,8 @@ export class CartController {
   }
 
   @Post('/update')
-  async update(@Req() req: Request): Promise<any[]> {
-    return await this.cartService.update(req)
+  async update(@Query() cart: CartQuery, @Body() body: CartBody): Promise<any[]> {
+    return await this.cartService.update(cart, body)
   }
 
   @Get('/coupon')
@@ -52,7 +69,7 @@ export class CartController {
 
   @Get('/pull')
   @Header('Cache-Control', 'no-cache, no-store')
-  async findAll(@Query() query: PullCartDto, @Body() body) {
+  async findAll(@Query() query: CartQuery, @Body() body: any) {
     return await this.cartService.findAll(query, body)
   }
 

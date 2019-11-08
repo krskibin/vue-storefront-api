@@ -1,8 +1,7 @@
 import { Inject } from '@nestjs/common'
-import { Request } from 'express'
-import config from 'config'
-import PlatformFactory from '../shared/PlatformFactory'
 import { ConfigService } from '../config/config.service';
+import PlatformFactory from '../shared/PlatformFactory'
+import config from 'config'
 
 export default class ApiBaseService {
   readonly platform: string
@@ -13,7 +12,7 @@ export default class ApiBaseService {
     this.type = config.type
   }
 
-  protected _getProxy(...rest) {
+  protected _getProxy(...rest: any) {
 		const factory = new PlatformFactory(config)
 		return factory.getAdapter(this.platform, this.type)
   }

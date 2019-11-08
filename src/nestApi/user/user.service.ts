@@ -138,7 +138,6 @@ export class UserService extends ApiBaseService {
     const userProxy = this._getProxy(req)
     try {
       let orderHistoryResult = await userProxy.orderHistory(req.query.token)
-      console.log('Hello')
       return orderHistoryResult
     } catch(err) {
       throw new BadRequestException(err.message)

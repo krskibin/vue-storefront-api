@@ -1,66 +1,68 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
-import { Request } from 'express-serve-static-core';
+import { Injectable } from '@nestjs/common';
 import ApiBaseService from '../shared/ApiBase';
+import { Cart, CartInfo } from './cart.interface'
+import { CreateCartQuery, UpdateCartQuery, CouponQuery } from './cart.dto'
 
 @Injectable()
 export class CartService extends ApiBaseService{
-  create(req: Request ): Promise<any[]>{
+  create(query: CreateCartQuery): Promise<Cart[]>{
     const cartProxy = this._getProxy()
-    return cartProxy.create(req.query.token)
+    return cartProxy.create(query.token)
   }
 
-  update(cart, body) {
+  update(cart: UpdateCartQuery, body: Cart) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.update(cart.token, cart.cardId, body.cartItem))
+    return Promise.resolve(cartProxy.update(cart.token, cart.cartId, body.cartItem))
   }
 
-  delete(req: Request) {
+  delete(cart: UpdateCartQuery, body: Cart) {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.delete(req.query.token, req.query.cartId ? req.query.cartId : null, req.body.cartItem))
+		return Promise.resolve(cartProxy.delete(cart.token, cart.cartId, body.cartItem))
   }
 
-  findAll(query: {token?: string, cartId: string}, body: any) {
+  pull(query: UpdateCartQuery, body: Cart) {
+    debugger
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.pull(query.token, query.cartId ? query.cartId : null, body))
+		return Promise.resolve(cartProxy.pull(query.token, query.cartId, body))
   }
 
-  totals(req: Request) {
+  totals(query: UpdateCartQuery, body: Cart) {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.totals(req.query.token, req.query.cartId ? req.query.cartId : null, req.body))
+		return Promise.resolve(cartProxy.totals(query.token, query.cartId, body))
   }
 
-  collectTotals(req: Request) {
+  collectTotals(query: UpdateCartQuery, body: Cart) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.collectTotals(req.query.token, req.query.cartId ? req.query.cartId : null, req.body.methods))
+    return Promise.resolve(cartProxy.collectTotals(query.token, query.cartId, body.methods))
   }
 
-  applyCoupon(req: Request) {
+  applyCoupon(query: CouponQuery) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.applyCoupon(req.query.token, req.query.cardId ? req.query.cardId: null, req.query.coupon))
+    return Promise.resolve(cartProxy.applyCoupon(query.token, query.cartId, query.coupon))
   }
 
-  deleteCoupon(req: Request) {
+  deleteCoupon(query: UpdateCartQuery) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.deleteCoupon(req.query.token, req.query.cartId ? req.query.cartId : null))
+    return Promise.resolve(cartProxy.deleteCoupon(query.token, query.cartId))
   }
 
-  findAllCoupons(req: Request) {
+  findAllCoupons(query: UpdateCartQuery) {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.getCoupon(req.query.token, req.query.cartId ? req.query.cartId : null))
+		return Promise.resolve(cartProxy.getCoupon(query.token, query.cartId))
   }
 
-  getShoppingMethods(req: Request) {
+  getShoppingMethods(query: UpdateCartQuery, body: CartInfo) {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.getShippingMethods(req.query.token, req.query.cartId ? req.query.cartId : null, req.body.address))
+		return Promise.resolve(cartProxy.getShippingMethods(query.token, query.cartId, body.address))
   }
 
-  getPaymentMethods(req: Request) {
+  getPaymentMethods(query: UpdateCartQuery) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.getPaymentMethods(req.query.token, req.query.cartId ? req.query.cartId : null))
+    return Promise.resolve(cartProxy.getPaymentMethods(query.token, query.cartId))
   }
 
-  setShoppingInformation(req: Request) {
+  setShoppingInformation(query: UpdateCartQuery, body: CartInfo) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.setShippingInformation(req.query.token, req.query.cartId ? req.query.cartId : null, req.body))
+    return Promise.resolve(cartProxy.setShippingInformation(query.token, query.cartId, body))
   }
 }

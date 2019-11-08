@@ -136,7 +136,13 @@ export class UserService extends ApiBaseService {
 
   async orderHistory(req: Request) {
     const userProxy = this._getProxy(req)
-    return Promise.resolve(userProxy.orderHistory(req.query.token))
+    try {
+      let orderHistoryResult = await userProxy.orderHistory(req.query.token)
+      console.log('Hello')
+      return orderHistoryResult
+    } catch(err) {
+      throw new BadRequestException(err.message)
+    }
   }
 
   async changePassword(req: Request) {

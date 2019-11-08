@@ -17,10 +17,10 @@ export class OrderService extends ApiBaseService {
   async create(req: Request) {
     const ajv = new Ajv()
     require('ajv-keywords')(ajv, 'regexp')
-    const orderSchema = require('../models/order.schema.js')
+    const orderSchema = require('../../models/order.schema.js')
 		let orderSchemaExtension = {}
-		if(existsSync('../models/order.schema.extension.json')) {
-			orderSchemaExtension = require('../models/order.schema.extension.json')
+		if(existsSync('../../models/order.schema.extension.json')) {
+			orderSchemaExtension = require('../../models/order.schema.extension.json')
     }
 
     const validate = ajv.compile(merge(orderSchema, orderSchemaExtension))

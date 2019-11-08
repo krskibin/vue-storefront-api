@@ -1,7 +1,14 @@
-import { Controller, Post, Delete, Req, Put, Get, Query, Header } from '@nestjs/common';
+import { Controller, Post, Delete, Req, Get, Header, Body, Query } from '@nestjs/common';
 import { Request } from 'express';
 import { CartService } from './cart.service';
-import { ApiUseTags } from '@nestjs/swagger';
+import { ApiUseTags, ApiModelProperty } from '@nestjs/swagger';
+
+export class PullCartDto {
+  @ApiModelProperty()
+  readonly cartId: string
+  @ApiModelProperty({required: false})
+  readonly token?: string 
+}
 
 @ApiUseTags('cart')
 @Controller('cart')
@@ -13,7 +20,7 @@ export class CartController {
     return await this.cartService.create(req)
   }
 
-  @Delete('/delete')
+  @Post('/delete')
   async delete(@Req() req: Request) {
     return await this.cartService.delete(req)
   }
@@ -23,7 +30,7 @@ export class CartController {
     return await this.cartService.totals(req)
   }
 
-  @Put('/update')
+  @Post('/update')
   async update(@Req() req: Request): Promise<any[]> {
     return await this.cartService.update(req)
   }
@@ -45,11 +52,11 @@ export class CartController {
 
   @Get('/pull')
   @Header('Cache-Control', 'no-cache, no-store')
-  async findAll(@Req() req: Request) {
-    return await this.cartService.findAll(req)
+  async findAll(@Query() query: PullCartDto, @Body() body) {
+    return await this.cartService.findAll(query, body)
   }
 
-  @Post('/shopping-methods')
+  @Post('/shipping-methods')
   @Header('Cache-Control', 'no-cache, no-store')
   async addShoppingMethods(@Req() req: Request) {
     return await this.cartService.getShoppingMethods(req)

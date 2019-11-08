@@ -8,7 +8,7 @@ import { Request } from 'express';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post('/*')
+  @Post('')
   create(@Req() req: Request) {
     this.orderService.create(req)
   }

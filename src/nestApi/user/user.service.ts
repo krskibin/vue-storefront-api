@@ -7,9 +7,12 @@ import ApiBaseService from '../shared/ApiBase'
 import config from  'config'
 import jwt from 'jwt-simple'
 import Ajv from 'ajv'
+import { UserBody, LoginUserBody } from './user.dto'
+import { User } from './user.interface'
 
 @Injectable()
 export class UserService extends ApiBaseService {
+
   static addUserGroupToken(config, result) {
     if (config.get('usePriceTiers')) {
       const data = {
@@ -22,33 +25,20 @@ export class UserService extends ApiBaseService {
     }
   }
 
-  create(req: Request) {
-		const ajv = new Ajv();
-    const userRegisterSchema = require('../../models/userRegister.schema.json')
-    let userRegisterSchemaExtension = {}
-
-    if(existsSync('../models/userRegister.schema.extension.json')) {
-			userRegisterSchemaExtension = require('../models/userRegister.schema.extension.json');
-		}
-		const validate = ajv.compile(merge(userRegisterSchema, userRegisterSchemaExtension))
-
-		if (!validate(req.body)) { // schema validation of upcoming order
-      throw new BadRequestException(validate.errors)
-		}
-
-    const userProxy = this._getProxy(req)
-    return Promise.resolve(userProxy.register(req.body))
+  create(user: UserBody): Promise<User> {
+    const userProxy = this._getProxy()
+    return Promise.resolve(userProxy.register(user))
   }
 
-  async login(req: Request, res: Response) {
-    const userProxy = this._getProxy(req)
-    const loginResult = await userProxy.login(req.body)
+  async login(user: LoginUserBody, res: Response) {
+    const userProxy = this._getProxy()
+    const loginResult = await userProxy.login(user)
     if (config.get('usePriceTiers')) {
       return res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         result: loginResult,
         meta: {
-          refreshToken: encryptToken(jwt.encode(req.body, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret')), config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
+          refreshToken: encryptToken(jwt.encode(user, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret')), config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
         }
       })
     } else {
@@ -56,7 +46,7 @@ export class UserService extends ApiBaseService {
         code: HttpStatus.OK,
         result: loginResult,
         meta: {
-				  refreshToken: encryptToken(jwt.encode(req.body, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret')), config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
+				  refreshToken: encryptToken(jwt.encode(user, config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret')), config.get('authHashSecret') ? config.get('authHashSecret') : config.get('objHashSecret'))
         }
       })
 

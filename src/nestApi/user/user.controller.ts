@@ -1,7 +1,8 @@
-import { Controller, Post, Get, Req, Res } from '@nestjs/common'
+import { Controller, Post, Get, Req, Res, Body } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { UserService } from './user.service'
 import { ApiUseTags } from '@nestjs/swagger'
+import { UserBody, LoginUserBody } from './user.dto'
 
 @ApiUseTags('user')
 @Controller('user')
@@ -9,13 +10,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/create')
-  async create(@Req() req: Request) {
-    return await this.userService.create(req)
+  async create(@Body() user: UserBody) {
+    return await this.userService.create(user)
   }
 
   @Post('/login')
-  async login(@Req() req: Request, @Res() res: Response) {
-    return this.userService.login(req, res)
+  async login(@Body() user: LoginUserBody, @Res() res: Response) {
+    return this.userService.login(user, res)
   }
 
   @Post('/refresh')
@@ -47,5 +48,4 @@ export class UserController {
   async changePassword(@Req() req: Request) {
     return await this.userService.changePassword(req)
   }
-  
 }

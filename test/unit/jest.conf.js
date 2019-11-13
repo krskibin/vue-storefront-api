@@ -1,6 +1,4 @@
-const config = require('config')
-
-module.exports = {
+export default {
   rootDir: '../../',
   moduleFileExtensions: [
     'js',

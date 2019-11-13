@@ -7,18 +7,13 @@ class UserProxy extends AbstractUserProxy {
         super(config, req)
         this.api = Magento2Client(multiStoreConfig(config.magento2.api, req));
     }       
-
     register (userData) { 
         return this.api.customers.create(userData)
     }
-    
     login (userData) { 
         return this.api.customers.token(userData)
     } 
-
     me (requestToken) {
-        console.log(this.api.customers.me(requestToken));
-
         return this.api.customers.me(requestToken)
     }        
     orderHistory (requestToken) { 

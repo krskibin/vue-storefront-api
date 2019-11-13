@@ -1,8 +1,9 @@
-import { Controller, Post, Get, Req, Res, Body } from '@nestjs/common'
+import { Controller, Post, Get, Req, Res, Body, Query } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { UserService } from './user.service'
 import { ApiUseTags } from '@nestjs/swagger'
-import { UserBody, LoginUserBody } from './user.dto'
+import { UserBody, LoginUserBody, RefreshTokenUserBody, LoginUserQuery, UpdateUserBody } from './user.dto'
+import { User } from './user.interface'
 
 @ApiUseTags('user')
 @Controller('user')
@@ -20,32 +21,32 @@ export class UserController {
   }
 
   @Post('/refresh')
-  async refresh(@Req() req: Request, @Res() res: Response) {
-    return await this.userService.refreshToken(req, res)
+  async refresh(@Body() user: RefreshTokenUserBody, @Res() res: Response) {
+    return await this.userService.refreshToken(user, res)
   }
 
   @Post('/reset[-P](pa|a)ssword')
-  async resetPassword(@Req() req: Request) {
-    return await this.userService.resetPassword(req)
+  async resetPassword(@Body() user: {email: string}) {
+    return await this.userService.resetPassword(user)
   }
 
   @Get('/me')
-  async userInfo(@Req() req: Request) {
-    return await this.userService.userInfo(req)
+  async userInfo(@Query() query: LoginUserQuery) {
+    return await this.userService.userInfo(query)
   }
 
   @Post('/me')
-  async userUpdate(@Req() req: Request) {
-    return await this.userService.userUpdate(req)
+  async userUpdate(@Query() query: LoginUserQuery, @Body() user: UpdateUserBody) {
+    return await this.userService.userUpdate(query, user)
   }
 
   @Get('/order-history')
-  async orderHistory(@Req() req: Request) {
-    return await this.userService.orderHistory(req)
+  async orderHistory(@Query() query: LoginUserQuery ) {
+    return await this.userService.orderHistory(query)
   }
 
   @Post('/change[-P](pa|a)ssword')
-  async changePassword(@Req() req: Request) {
-    return await this.userService.changePassword(req)
+  async changePassword(@Query() query: LoginUserQuery, @Body() user: UserBody) {
+    return await this.userService.changePassword(query, user)
   }
 }

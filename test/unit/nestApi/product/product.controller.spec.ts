@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing'
+import { Request } from 'express'
 import { ProductController } from 'src/nestApi/product/product.controller'
 import { ProductService } from 'src/nestApi/product/product.service'
 import { ConfigModule } from 'src/nestApi/config/config.module'
-import { Request } from 'express'
 
 describe('ProductController', () => {
   let productController: ProductController
@@ -19,7 +19,7 @@ describe('ProductController', () => {
     productService = productModule.get<ProductService>(ProductService)
     productController = productModule.get<ProductController>(ProductController)
   })
-
+  
   describe('list', () => {
     it('should return an array of products when request contains skus parameter', async () => {
       const result = Promise.resolve(['result'])

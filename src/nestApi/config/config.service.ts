@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 
-import { ConfigOptions } from './interfaces';
+import { ConfigOptions } from './config.interface';
 import { CONFIG_OPTIONS } from './constants';
 import config, { IConfig } from 'config';
 

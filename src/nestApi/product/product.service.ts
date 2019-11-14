@@ -1,7 +1,6 @@
 import config from 'config'
 import jwa from 'jwa'
 import { Injectable } from '@nestjs/common'
-import { Request } from 'express'
 import BadRequestException from '../shared/bad-request.exception'
 import ApiBaseService from '../shared/ApiBase'
 import { sgnSrc } from '../../lib/util'

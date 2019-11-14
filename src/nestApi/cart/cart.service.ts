@@ -4,65 +4,64 @@ import { Cart, CartInfo } from './cart.interface'
 import { CreateCartQuery, UpdateCartQuery, CouponQuery } from './cart.dto'
 
 @Injectable()
-export class CartService extends ApiBaseService{
-  create(query: CreateCartQuery): Promise<Cart[]>{
+export class CartService extends ApiBaseService {
+  async create<I>(query: CreateCartQuery): Promise<Cart<I>[]> {
     const cartProxy = this._getProxy()
     return cartProxy.create(query.token)
   }
 
-  update(cart: UpdateCartQuery, body: Cart) {
+  async update<I>(cart: UpdateCartQuery, body: Cart<I>): Promise<Cart<I>[]> {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.update(cart.token, cart.cartId, body.cartItem))
+    return cartProxy.update(cart.token, cart.cartId, body.cartItem)
   }
 
-  delete(cart: UpdateCartQuery, body: Cart) {
+  async delete<I>(cart: UpdateCartQuery, body: any): Promise<any[]> {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.delete(cart.token, cart.cartId, body.cartItem))
+		return cartProxy.delete(cart.token, cart.cartId, body.cartItem)
   }
 
-  pull(query: UpdateCartQuery, body: Cart) {
-    debugger
+  async pull<I>(query: UpdateCartQuery, body: Cart<I>): Promise<Cart<I>[]> {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.pull(query.token, query.cartId, body))
+		return cartProxy.pull(query.token, query.cartId, body)
   }
 
-  totals(query: UpdateCartQuery, body: Cart) {
+  async totals<I>(query: UpdateCartQuery, body: Cart<I>): Promise<Cart<I>[]> {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.totals(query.token, query.cartId, body))
+		return cartProxy.totals(query.token, query.cartId, body)
   }
 
-  collectTotals(query: UpdateCartQuery, body: Cart) {
+  async collectTotals<I>(query: UpdateCartQuery, body: Cart<I>): Promise<Cart<I>[]>{
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.collectTotals(query.token, query.cartId, body.methods))
+    return cartProxy.collectTotals(query.token, query.cartId, body.methods)
   }
 
-  applyCoupon(query: CouponQuery) {
+  async applyCoupon(query: CouponQuery) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.applyCoupon(query.token, query.cartId, query.coupon))
+    return cartProxy.applyCoupon(query.token, query.cartId, query.coupon)
   }
 
-  deleteCoupon(query: UpdateCartQuery) {
+  async deleteCoupon(query: UpdateCartQuery) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.deleteCoupon(query.token, query.cartId))
+    return cartProxy.deleteCoupon(query.token, query.cartId)
   }
 
-  findAllCoupons(query: UpdateCartQuery) {
+  async findAllCoupons(query: UpdateCartQuery) {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.getCoupon(query.token, query.cartId))
+		return cartProxy.getCoupon(query.token, query.cartId)
   }
 
-  getShoppingMethods(query: UpdateCartQuery, body: CartInfo) {
+  async getShoppingMethods(query: UpdateCartQuery, body: CartInfo) {
     const cartProxy = this._getProxy()
-		return Promise.resolve(cartProxy.getShippingMethods(query.token, query.cartId, body.address))
+		return cartProxy.getShippingMethods(query.token, query.cartId, body.address)
   }
 
-  getPaymentMethods(query: UpdateCartQuery) {
+  async getPaymentMethods(query: UpdateCartQuery) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.getPaymentMethods(query.token, query.cartId))
+    return cartProxy.getPaymentMethods(query.token, query.cartId)
   }
 
-  setShoppingInformation(query: UpdateCartQuery, body: CartInfo) {
+  async setShoppingInformation(query: UpdateCartQuery, body: CartInfo) {
     const cartProxy = this._getProxy()
-    return Promise.resolve(cartProxy.setShippingInformation(query.token, query.cartId, body))
+    return cartProxy.setShippingInformation(query.token, query.cartId, body)
   }
 }

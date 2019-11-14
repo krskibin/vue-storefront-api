@@ -1,12 +1,10 @@
 
-export interface Item {
-  qty: number
-  sku: string
-  quoteId: string
+export interface Item<I> {
+  [key: string]: I
 } 
 
-export interface Cart {
-  cartItem: Item[]
+export interface Cart<I> {
+  cartItem: Item<I>[]
   methods?: any
 }
 

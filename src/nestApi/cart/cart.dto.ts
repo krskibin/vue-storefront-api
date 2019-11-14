@@ -10,9 +10,8 @@ export class UpdateCartQuery {
 }
 
 export class CreateCartQuery {
-  @IsNotEmpty()
   @ApiModelProperty()
-  readonly token: string
+  readonly token?: string
 }
 
 export class CouponQuery extends UpdateCartQuery {
@@ -21,18 +20,19 @@ export class CouponQuery extends UpdateCartQuery {
   readonly coupon: string
 }
 
-export class CartItemBody {
+export class CartItemBody<I> {
   @ApiModelProperty()
   readonly qty: number
   @ApiModelProperty()
   readonly sku: string
   @ApiModelProperty()
   readonly quoteId: string
+  [key: string]: any
 }
 
-export class CartBody {
+export class CartBody<I> {
   @ApiModelProperty({required: false})
-  readonly cartItem: CartItemBody[]
+  readonly cartItem: CartItemBody<I>[]
 
   @ApiModelProperty({required: false})
   readonly methods?: any

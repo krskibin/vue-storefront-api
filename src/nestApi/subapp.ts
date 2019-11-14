@@ -12,7 +12,6 @@ export default async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   app.useGlobalPipes(new ValidationPipe())
 
-
   const options = new DocumentBuilder()
     .setTitle('Vue Storefront API')
     .setDescription('Lorem')

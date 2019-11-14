@@ -4,7 +4,6 @@ import { ProductModule } from './product/product.module'
 import { CatalogModule } from './catalog/catalog.module'
 import { CartModule } from './cart/cart.module'
 import { UserModule } from './user/user.module';
-import { OrderModule } from './order/order.module';
 
 @Global()
 @Module({
@@ -13,7 +12,6 @@ import { OrderModule } from './order/order.module';
     CatalogModule,
     CartModule,
     UserModule,
-    OrderModule
   ],
   controllers: [AppController],
 })

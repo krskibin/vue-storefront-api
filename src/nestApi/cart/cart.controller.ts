@@ -1,6 +1,6 @@
 import { Controller, Post, Get, Header, Body, Query } from '@nestjs/common';
 import { ApiUseTags } from '@nestjs/swagger';
-import { Cart, Item } from './cart.interface';
+import { Cart } from './cart.interface';
 import { CartBody, CreateCartQuery, UpdateCartQuery, CouponQuery, CartInfoBody  } from './cart.dto'
 import { CartService } from './cart.service';
 
